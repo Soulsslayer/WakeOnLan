@@ -25,9 +25,6 @@
 
 #define USAGE              "Usage: %s [-r remoteaddr] [-f filename1, ...|mac1, ...]\n"
 
-/**
-* @brief Structure for mac address
-*/
 typedef struct
 {
 	unsigned char mac_addr[MAC_ADDR_MAX];
@@ -72,9 +69,9 @@ int packMacAddr(const char* mac, mac_addr_t* packedMac)
 	return 0;
 }
 
-int startupSocket()
+SOCKET startupSocket()
 {
-	int sock;
+	SOCKET sock;
 	int optval = 1;
 
 	if ((sock = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) < 0)
@@ -82,17 +79,17 @@ int startupSocket()
 		fprintf(stderr, "Cannot open socket: %s ...!\n", strerror(errno));
 		return -1;
 	}
-	/*
+	
 	if (setsockopt(sock, SOL_SOCKET, SO_BROADCAST, (char*)&optval, sizeof(optval)) < 0)
 	{
 		fprintf(stderr, "Cannot set socket options: %s ...!\n", strerror(errno));
 		return -1;
-	}*/
+	}
 
 	return sock;
 }
 
-int sendWOL(const wol_header_t* wol_header, const int sock)
+int sendWOL(const wol_header_t* wol_header,SOCKET sock)
 {
 	struct sockaddr_in addr;
 	unsigned char packet[PACKET_BUF];
@@ -130,6 +127,8 @@ int sendWOL(const wol_header_t* wol_header, const int sock)
 
 int main()
 {
+	
+
 	WSADATA data;
 	WSAStartup(MAKEWORD(2, 0), &data);
 	mac_addr_t macadr;
@@ -137,7 +136,7 @@ int main()
 
 	wolheader.mac_addr = &macadr;
 
-	memcpy(&wolheader.remote_addr,"192.168.178.52", 16);
+	memcpy(&wolheader.remote_addr,"192.168.178.255", 16);
 
 	packMacAddr("70-8B-CD-58-63-40", &macadr);
 
