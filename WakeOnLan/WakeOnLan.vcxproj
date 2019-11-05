@@ -20,6 +20,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="net.cpp" />
+    <ClCompile Include="wakeonlansocket.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="net.h" />
+    <ClInclude Include="wakeonlansocket.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
